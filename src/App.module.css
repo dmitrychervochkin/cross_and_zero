@@ -1,4 +1,4 @@
-*{
+* {
 	margin: 0;
 	padding: 0;
 }
@@ -15,7 +15,7 @@
 	color: white;
 }
 
-.restart_btn{
+.restart_btn {
 	margin: 30px;
 	height: 9vh;
 	width: 330px;
@@ -24,12 +24,12 @@
 	font-weight: 700;
 	border-radius: 30px;
 	border: 3px solid rgb(0, 0, 0);
+	transition: 0.3s;
 }
 
-.restart_btn:hover{
+.restart_btn:hover {
 	background-color: rgb(0, 0, 0);
-	transition: 0.3s;
+	cursor: pointer;
 	color: rgb(164, 170, 235);
 	border: 3px solid white;
 }
-

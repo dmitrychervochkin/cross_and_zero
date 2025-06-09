@@ -3,24 +3,30 @@ import { LogoContainer } from './logo/logo';
 import { FieldLayout } from './field/fieldLayout';
 import { InfoContainer } from './info/infoContainer';
 import React, { useState } from 'react';
-import PropTypes from 'prop-types';
 
 export function App() {
-	let [currentPlayer, setCurrentPlayer] = useState('X');
+	const [currentPlayer, setCurrentPlayer] = useState('X');
 	const [isGameEnded, setIsGameEnded] = useState(false);
+	const [winnerFields, setWinnerFields] = useState([]);
 	const [isDraw, setIsDraw] = useState(false);
-	let [fields, setFields] = useState(['', '', '', '', '', '', '', '', '']);
+	const [fields, setFields] = useState(['', '', '', '', '', '', '', '', '']);
 
-	function whoIsWinner(field){
+	function whoIsWinner(field) {
 		const WIN_PATTERNS = [
-			[0, 1, 2], [3, 4, 5], [6, 7, 8], // Варианты побед по горизонтали
-			[0, 3, 6], [1, 4, 7], [2, 5, 8], // Варианты побед по вертикали
-			[0, 4, 8], [2, 4, 6], // Варианты побед по диагонали
+			[0, 1, 2],
+			[3, 4, 5],
+			[6, 7, 8], // Варианты побед по горизонтали
+			[0, 3, 6],
+			[1, 4, 7],
+			[2, 5, 8], // Варианты побед по вертикали
+			[0, 4, 8],
+			[2, 4, 6], // Варианты побед по диагонали
 		];
 
 		for (let i = 0; i < WIN_PATTERNS.length; i++) {
 			const [a, b, c] = WIN_PATTERNS[i];
-			if (field[a] &&	field[a] === field[b] && field[a] === field[c]) {
+			if (field[a] && field[a] === field[b] && field[a] === field[c]) {
+				setWinnerFields([a, b, c]);
 				return field[a];
 			}
 		}
@@ -30,21 +36,19 @@ export function App() {
 	function handleClick(index) {
 		const fieldsCopy = [...fields];
 
-		if(!isGameEnded && fieldsCopy[index] === ''){
+		if (!isGameEnded && fieldsCopy[index] === '') {
 			fieldsCopy[index] = currentPlayer;
-		setFields(fieldsCopy);
+			setFields(fieldsCopy);
 		}
 
-		if(whoIsWinner(fieldsCopy)){
+		if (whoIsWinner(fieldsCopy)) {
 			setIsGameEnded(true);
-			return null
-		} else if (whoIsWinner(fieldsCopy) === null && fieldsCopy.indexOf('') === -1){
+			return null;
+		} else if (whoIsWinner(fieldsCopy) === null && fieldsCopy.indexOf('') === -1) {
 			setIsDraw(true);
-		} else if (whoIsWinner(fieldsCopy) === null && fieldsCopy.indexOf('') !== -1){
+		} else if (whoIsWinner(fieldsCopy) === null && fieldsCopy.indexOf('') !== -1) {
 			setCurrentPlayer(currentPlayer === 'X' ? 'O' : 'X');
 		}
-
-
 	}
 
 	return (
@@ -55,9 +59,10 @@ export function App() {
 				isGameEnded={isGameEnded}
 				currentPlayer={currentPlayer}
 			/>
-			<FieldLayout fields={fields} handleClick={handleClick} />
+			<FieldLayout fields={fields} handleClick={handleClick} winnerFields={winnerFields} />
 			<button
 				onClick={() => {
+					setWinnerFields([]);
 					setCurrentPlayer('X');
 					setIsGameEnded(false);
 					setIsDraw(false);
@@ -70,4 +75,3 @@ export function App() {
 		</div>
 	);
 }
-

@@ -3,8 +3,7 @@ import React from 'react';
 import { FieldContainer } from './fieldContainer';
 import PropTypes from 'prop-types';
 
-export function FieldLayout({ fields, handleClick }) {
-
+export function FieldLayout({ fields, handleClick, winnerFields }) {
 	return (
 		<div className={styles.container}>
 			{fields.map((field, index) => (
@@ -13,13 +12,14 @@ export function FieldLayout({ fields, handleClick }) {
 					index={index}
 					field={field}
 					handleClick={handleClick}
+					winnerFields={winnerFields}
 				/>
 			))}
 		</div>
 	);
 }
 
-FieldLayout.propTypes ={
+FieldLayout.propTypes = {
 	fields: PropTypes.array.isRequired,
-	handleClick: PropTypes.func
-}
+	handleClick: PropTypes.func,
+};
